@@ -35,4 +35,4 @@ jobs:
           mkdir build
           cd build
           ../cmake/bin/cmake .. -DBUILD_TYPE=Release
-          ../cmake/bin/cmake --build .
+          ../cmake/bin/cmake --build . --target protonchess
