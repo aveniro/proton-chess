@@ -16,6 +16,8 @@ set(FEN_EXT_TEST_SOURCES
 
 set(IE_EXT_SOURCES
         src/extensions/import_export.c)
+set(IE_EXT_TEST_SOURCES
+        test/ie.test.c)
 
 set(POC_SOURCES
         src/applications/poc.c)
@@ -72,7 +74,7 @@ if(FEN_EXTENSIONS)
 endif()
 
 # Import Export Extensions
-if(IE_EXT_SOURCES)
+if(IMPORT_EXPORT_EXTENSIONS)
     add_executable(ie-extensions-tests ${IE_EXT_TEST_SOURCES})
     target_link_libraries(ie-extensions-tests protonchess)
     target_include_directories(ie-extensions-tests PUBLIC ${LIBRARY_INCLUDE_DIRECTORIES} SYSTEM ${TEST_INCLUDE_DIRECTORIES})
