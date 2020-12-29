@@ -41,6 +41,7 @@ jobs:
       - name: Build proton-chess
         id: build
         run: |
+          cd build
           ../cmake/bin/cmake --build . --target protonchess
           echo "::set-output name=build_passing::$([[ $? -eq 0 ]] && echo "Passing" || echo "Failing")\n"
         
