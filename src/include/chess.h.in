@@ -1,0 +1,261 @@
+/**
+ * @file chess.h
+ * @author Nathan Seymour
+ * @brief Main header file for proton-chess.
+ */
+
+#ifndef CHESS_AI_CHESS_H
+#define CHESS_AI_CHESS_H
+
+#define CB_VERSION          @PROJECT_VERSION@
+#define CB_VERSION_MAJOR    @PROJECT_VERSION_MAJOR@
+#define CB_VERSION_MINOR    @PROJECT_VERSION_MINOR@
+#define CB_VERSION_PATCH    @PROJECT_VERSION_PATCH@
+
+/**
+ * @defgroup piece-values Piece Values
+ * Definitions for all of the possible piece values and their
+ * two colors.
+ *
+ * Piece values are formed by binary-ORing their color and piece value.
+ *
+ * Ex. WHITE | ROOK = a white rook
+ *     BLACK | KING = a black king
+ *
+ * It would be much preferable to me to use binary values here,
+ * as it would be easier to see how things work, but the '0bXXXX'
+ * notation is a GNU extension. For the sake of maximum portability,
+ * the values will be written in hex with a comment of their binary
+ * equivalent off to the side.
+ */
+///@{
+#define WHITE           0x0     /* 0b0000 */
+#define BLACK           0x8     /* 0b1000 */
+
+#define PAWN            0x1     /* 0b0001 */
+#define KNIGHT          0x2     /* 0b0010 */
+#define BISHOP          0x3     /* 0b0011 */
+#define ROOK            0x4     /* 0b0100 */
+#define QUEEN           0x5     /* 0b0101 */
+#define KING            0x6     /* 0b0110 */
+
+#define EMPTY_SQUARE    0x0     /* 0b0000 */
+///@}
+
+/*
+ * Castling Rights.
+ * The four bits notate king- and queen-side castling rights for white, and then
+ * black.
+ *
+ * Ex: 0b0000 1001 - White may castle king-side and black may castle queen-side.
+ */
+#define CASTLE_RIGHTS_NONE                  0x0     /* 0b0000 */
+#define CASTLE_RIGHTS_ALL                   0xF     /* 0b1111 */
+#define CASTLE_RIGHTS_KINGSIDE_WHITE        0x8     /* 0b1000 */
+#define CASTLE_RIGHTS_QUEENSIDE_WHITE       0x4     /* 0b0100 */
+#define CASTLE_RIGHTS_KINGSIDE_BLACK        0x2     /* 0b0010 */
+#define CASTLE_RIGHTS_QUEENSIDE_BLACK       0x1     /* 0b0001 */
+
+// Size Constants
+#define CB_FEN_NOTATION_LENGTH 65
+
+// General macros
+/**
+ * Convert a number character to an integer by subtracting the ASCII value of '0'
+ * from it.
+ *
+ * Ex. '1' -> 1, '2' -> 2, etc.
+ */
+#define cb_single_char_to_int(character) ((character) - 48)
+
+/**
+ * Convert a single digit int into into a single character.
+ *
+ * Ex. 1 -> '1', 2 -> '2', etc.
+ */
+#define cb_single_int_to_char(integer) ((integer) + 48)
+
+/**
+ * Convert an uppercase character file name into its zero-indexed id.
+ * 'A' -> 0, 'B' -> 1, etc.
+ * @param file Uppercase character file name. Ex: 'A', 'B', 'C'.
+ */
+#define cb_file_id_from_uppercase(file) ((file) - 65)
+
+/**
+ * Convert a lowercase character file name into its zero-indexed id.
+ * 'a' -> 0, 'b' -> 1, etc.
+ * @param file Lowercase character file name. Ex: 'a', 'b', 'c'.
+ */
+#define cb_file_id_from_lowercase(file) ((file) - 97)
+
+/**
+ * Convert a character file name into its zero-indexed id. Regardless
+ * of case.
+ * 'a' -> 0, 'B' -> 1, etc.
+ * @param file Character file name. Ex: 'a', 'B', 'c'.
+ */
+#define cb_file_id(file) ((file) >= 97 ? cb_file_id_from_lowercase(file) : cb_file_id_from_uppercase(file))
+
+/**
+ * Convert a file id to its lowercase character counterpart.
+ * 0 -> 'a', 7 -> 'h', etc.
+ * @param file_id File id to convert as number. Ex: 1, 2, 3
+ */
+#define cb_file(file_id) ((file_id) + 97)
+
+/**
+ * Convert a standard rank to its zero-index id.
+ * 1 -> 0, 8 -> 7, etc.
+ * @param rank Standard rank number as found on the chess board (from 1-8 inclusive).
+ */
+#define cb_rank_id(rank) ((rank) - 1)
+
+/**
+ * Convert a rank id to its standard rank number.
+ * 0 -> 1, 5 -> 6, etc.
+ * @param rank_id Rank id to convert.
+ */
+#define cb_rank(rank_id) ((rank_id) + 1)
+
+/**
+ * Convert a file_id and rank into zero-indexed container index in the
+ * chess board 1D array.
+ * @param file_id Zero-indexed file id attained by cb_file_id().
+ * @param rank Zero-indexed rank id.
+ */
+#define cb_container_index(file_id, rank_id) ((file_id / 2) + (rank_id * 4))
+
+/**
+ * Convert a file_id and rank into zero-indexed index in the
+ * chess board 1D array.
+ * @param file_id Zero-indexed file id attained by cb_file_id().
+ * @param rank Zero-indexed rank id.
+ */
+#define cb_square_index(file_id, rank_id) ((file_id) + (rank_id * 8))
+
+/**
+ * Used extensively as a container to store various values.
+ * This is because we try to store everything in the smallest
+ * possible size in order to reduce binary size and RAM
+ * consumption.
+ */
+typedef unsigned char uchar;
+
+/**
+ * Structure used to hold chess boards and their game information
+ * in proton-chess.
+ */
+typedef struct {
+    /**
+     * Here we store the move counter, but not the standard game move
+     * counter. This is the total number of moves made (so increments
+     * every time that a piece is moved and not every time both black
+     * and white have moved). Otherwise known as "halfmoves." This
+     * allows us to store the game move counter and the player who is
+     * next to move.
+     *
+     * Ex: move_counter % 2 == 0 => white to move
+     *     move_counter % 2 == 1 => black to move
+     */
+    uchar move_counter;
+
+    /**
+     * Here we store the castling rights of each side. The first four bits
+     * are unused, the second four bits notate king- and queen-side castling
+     * rights for white, and then black.
+     *
+     * Ex: 0b0000 1001 - White may castle king-side and black may castle queen-side.
+     */
+    uchar castling_rights;
+
+    /**
+     * The index of the en passant target square as in the board's 1D array.
+     */
+    uchar ep_target_square_index;
+
+    /**
+     * The number of moves since the last capture or pawn advance. The value
+     * is used in the "fifty-move" rule.
+     */
+    uchar halfmove_clock;
+
+    /**
+     * The board is stored as a 1D array of unsigned characters (bytes)
+     * in order to have complete control over its shape. The information
+     * for each square is exactly four bits long, so each byte holds a pair
+     * of squares. This allows us to fit the whole board into 32 bytes!
+     */
+    uchar board[32];
+} chess_board;
+
+/**
+ * Chess piece lookup table. Converts character notation values into
+ * proton-chess binary piece representations.
+ *
+ * Ex. cb_lookup_table['R']  == 4 == 0b0100 == ROOK
+ *     cb_lookup_table[ROOK] == 4 == 0b0100 == 'R'
+ */
+static const uchar cb_lookup_table[122] = {
+        0,80,78,66,82,81,75,0,0,112,110,
+        98,114,113,107,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+        0,0,0,0,0,0,0,0,6,0,0,2,0,1,5,
+        4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,11,0,0,0,0,0,0,0,0,14,0,0,10,
+        0,9,13,12,0,0,0,0,0,0,0
+};
+
+/**
+ * Piece values used during positional evaluations. Taken
+ * from Wikipedia.
+ */
+static const uchar cb_piece_values[5] = {
+        1, /// Pawn
+        3, /// Knight
+        3, /// Bishop
+        5, /// Rook
+        9  /// Queen
+};
+
+/**
+ * Array (binary) representation of the standard initial chess position
+ * (standard). This is used to initialize chess boards to a new game. FEN
+ * or another human-readable representation could be used, but I've opted
+ * for this so that FEN and other human-readable formats can be made optional
+ * extensions.
+ */
+static const uchar cb_initial_chess_position[32] = {
+        66,53,99,36,17,17,17,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,153,153,153,153,202,189,235,172
+};
+
+// chess.c
+chess_board *cb_new_chess_board();
+void cb_free_chess_board(chess_board *board);
+uchar cb_get_board_value_at(chess_board *board, uchar file, uchar rank);
+void cb_set_board_value_at(chess_board *board, uchar file, uchar rank, uchar piece_value);
+char *cb_coordinate_index_to_notation(uchar coordinate_index);
+void cb_initialize_game(chess_board *board);
+
+// stringutils.c
+uchar cb_read_uchar_from_string(const char *string, uchar start_index);
+uchar cb_uchar_to_string(uchar value, char *buffer, uchar buffer_size);
+
+#include "extensions.h"
+
+// fen.c
+#ifdef FEN_EXTENSIONS
+void cb_parse_fen(chess_board *board, const char *fen);
+void cb_generate_fen(chess_board *board, char *buffer, int buffer_size);
+#endif
+
+// import_export.c
+#ifdef IMPORT_EXPORT_EXTENSIONS
+void cb_write_board_to_file(chess_board *board, const char *path);
+void cb_read_board_state_from_file(chess_board *board, const char *path);
+chess_board *cb_import_board_from_file(const char *path);
+#endif
+
+#endif //CHESS_AI_CHESS_H

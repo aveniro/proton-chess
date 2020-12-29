@@ -1,0 +1,14 @@
+/**
+ * @file extensions.h
+ * @author Nathan Seymour
+ * @brief File configured by CMake for managing
+ * enabled extensions.
+ */
+
+#ifndef PROTON_CHESS_EXTENSIONS_H_IN_H
+#define PROTON_CHESS_EXTENSIONS_H_IN_H
+
+#cmakedefine FEN_EXTENSIONS
+#cmakedefine IMPORT_EXPORT_EXTENSIONS
+
+#endif //PROTON_CHESS_EXTENSIONS_H_IN_H
