@@ -34,5 +34,5 @@ jobs:
         run: |
           mkdir build
           cd build
-          ../cmake/bin/cmake . -DBUILD_TYPE=Release
+          ../cmake/bin/cmake .. -DBUILD_TYPE=Release
           ../cmake/bin/cmake --build .
