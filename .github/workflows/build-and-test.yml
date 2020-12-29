@@ -21,7 +21,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Update and install build tools
-        run: apt update && apt install build-essential wget doxygen
+        run: sudo apt-get update && sudo apt-get install build-essential wget doxygen
 
       # Runs a set of commands using the runners shell
       - name: Download cmake
