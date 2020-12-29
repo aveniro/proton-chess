@@ -1,4 +1,4 @@
-name: ci-linux-x86_64.yaml
+name: ci-linux-x86_64
 
 # Controls when the action will run. 
 on:
