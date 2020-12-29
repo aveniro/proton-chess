@@ -25,14 +25,30 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Download cmake
+        run: wget https://github.com/Kitware/CMake/releases/download/v3.19.2/cmake-3.19.2-Linux-x86_64.tar.gz
+        
+      - name: Unpack cmake
         run: |
-          wget https://github.com/Kitware/CMake/releases/download/v3.19.2/cmake-3.19.2-Linux-x86_64.tar.gz
           tar xf cmake-3.19.2-Linux-x86_64.tar.gz
           mv cmake-3.19.2-Linux-x86_64 cmake
 
-      - name: Build proton-chess
+      - name: Configure proton-chess
         run: |
           mkdir build
           cd build
           ../cmake/bin/cmake .. -DBUILD_TYPE=Release
+
+      - name: Build proton-chess
+        id: build
+        run: |
           ../cmake/bin/cmake --build . --target protonchess
+          echo "::set-output name=build_passing::$([[ $? -eq 0 ]] && echo "Passing" || echo "Failing")\n"
+        
+      - name: Build badge
+        uses: RubbaBoy/BYOB@v1.2.0
+        with:
+          NAME: build
+          LABEL: Build
+          STATUS: ${{ steps.build.outputs.build }}
+          COLOR: 00EEFF
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
