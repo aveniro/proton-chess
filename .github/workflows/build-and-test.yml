@@ -1,0 +1,38 @@
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Update and install build tools
+        run: apt update && apt install build-essential wget doxygen
+
+      # Runs a set of commands using the runners shell
+      - name: Download cmake
+        run: |
+          wget https://github.com/Kitware/CMake/releases/download/v3.19.2/cmake-3.19.2-Linux-x86_64.tar.gz
+          tar xf cmake-3.19.2-Linux-x86_64.tar.gz
+          mv cmake-3.19.2-Linux-x86_64 cmake
+
+      - name: Build proton-chess
+        run: |
+          mkdir build
+          cd build
+          ../cmake/bin/cmake . -DBUILD_TYPE=Release
+          ../cmake/bin/cmake --build .
