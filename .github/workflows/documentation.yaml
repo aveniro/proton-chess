@@ -41,3 +41,11 @@ jobs:
         run: |
           cd build
           ../cmake/bin/cmake --build . --target documentation
+
+      - name: Deploy documentation
+        run: |
+          git checkout documentation
+          git add build/docs/html/*
+          git mv build/docks/html/* .
+          git commit -m "Update documentation"
+          git push origin documentation
