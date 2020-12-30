@@ -61,7 +61,7 @@ if(ENABLE_TESTING)
 
     add_executable(tests test/test.c)
     target_include_directories(tests PUBLIC ${INCLUDE_DIRECTORIES})
-    target_link_libraries(tests protonchess-test pcstrings-test)
+    target_link_libraries(tests protonchess-test pcstrings-test pcmath-test)
 
     if(FEN_EXTENSIONS)
         add_library(fen-ext-test test/extensions/fen.test.c)

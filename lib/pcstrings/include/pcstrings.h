@@ -1,7 +1,8 @@
 /**
  * @file pcstrings.h
  * @author Nathan Seymour
- * @brief Header file for the libpcstrings.
+ * @brief Portable, cross-platform string operations for
+ * proton-chess.
  */
 
 #ifndef PROTON_CHESS_PCSTRINGS_H

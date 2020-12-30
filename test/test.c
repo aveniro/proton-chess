@@ -9,6 +9,7 @@
 
 DEFINE_SUITE(ProtonChessMain);
 DEFINE_SUITE(PCStrings);
+DEFINE_SUITE(PCMath);
 
 #ifdef FEN_EXTENSIONS
 DEFINE_SUITE(FENExtensions);
@@ -21,6 +22,7 @@ int main()
 {
     RUN_SUITE(ProtonChessMain);
     RUN_SUITE(PCStrings);
+    RUN_SUITE(PCMath);
 
 #ifdef FEN_EXTENSIONS
     RUN_SUITE(FENExtensions);

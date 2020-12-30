@@ -4,7 +4,7 @@
  * @brief Portable utilities for working with strings.
  */
 
-#include <math.h>
+#include "pcmath.h"
 #include "chess.h"
 
 /**
@@ -30,7 +30,7 @@ uchar cb_read_uchar_from_string(const char *string, uchar start_index)
      */
     for(char i = last_string_char_index; i >= start_index; i--)
     {
-        number += (uchar)cb_single_char_to_int(string[i]) * (uchar)pow(10, last_string_char_index - i);
+        number += (uchar)cb_single_char_to_int(string[i]) * (uchar)pcpow(10, last_string_char_index - i);
     }
 
     return number;
@@ -44,9 +44,9 @@ uchar cb_uchar_to_string(uchar value, char *buffer, uchar buffer_size)
     for(uchar i = 2; i != 255 && i <= buffer_size; i--)
     {
         uchar positional_value = 0;
-        for(; number + (positional_value * pow(10, i)) <= value; positional_value++);
+        for(; number + (positional_value * pcpow(10, i)) <= value; positional_value++);
         positional_value--;
-        number += positional_value * (uchar)pow(10, i);
+        number += positional_value * (uchar)pcpow(10, i);
 
         if(positional_value > 0)
         {
