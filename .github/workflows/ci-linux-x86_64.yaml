@@ -46,10 +46,9 @@ jobs:
       - name: Build tests
         run: |
           cd build
-          ../cmake/bin/cmake --build . --target proton-chess-tests-all
+          ../cmake/bin/cmake --build . --target tests
           
       - name: Run tests
         run: |
           cd build
-          ./fen-extensions-tests
-          ./libprotonchess-tests
+          ./tests

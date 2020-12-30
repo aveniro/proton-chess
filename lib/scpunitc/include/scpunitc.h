@@ -41,7 +41,10 @@ typedef struct {
     char **test_names;
 } test_suite;
 
-#define TEST_SUITE(suite_name) static void scpunitc_suite_##suite_name(test_suite* suite)
+#define TEST_SUITE(suite_name) void scpunitc_suite_##suite_name(test_suite* suite)
+
+#define DEFINE_SUITE(suite_name) extern void scpunitc_suite_##suite_name(test_suite* suite)
+
 #define TEST(test_name) static void scpunitc_test_##test_name(test_results *_test_results)
 
 #define ADD_TEST(test_name) \

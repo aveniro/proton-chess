@@ -3,90 +3,85 @@ project(proton-chess LANGUAGES C VERSION 0.0.1)
 
 set(CMAKE_C_STANDARD 99)
 
-# Sources
-set(LIBRARY_MAIN_SOURCES
-        src/library/chess.c src/library/stringutils.c)
-set(LIBRARY_MAIN_TEST_SOURCES
-        test/chess.test.c)
-
-set(FEN_EXT_SOURCES
-        src/extensions/fen.c)
-set(FEN_EXT_TEST_SOURCES
-        test/fen.test.c)
-
-set(IE_EXT_SOURCES
-        src/extensions/import_export.c)
-set(IE_EXT_TEST_SOURCES
-        test/ie.test.c)
-
-set(POC_SOURCES
-        src/applications/poc.c)
-
-# Include directories
-set(LIBRARY_INCLUDE_DIRECTORIES
-        ${CMAKE_BINARY_DIR}/include)
-set(TEST_INCLUDE_DIRECTORIES
-        lib/scpunitc/src/include)
-
 # Options
 option(FEN_EXTENSIONS "Enable proton-chess FEN extensions." ON)
 option(IMPORT_EXPORT_EXTENSIONS "Enable proton-chess Import/Export extensions." ON)
+option(ENABLE_TESTING "Enable testing." ON)
 
-# Configure extensions header
-configure_file(src/include/extensions.h.in ${CMAKE_BINARY_DIR}/include/extensions.h)
-configure_file(src/include/chess.h.in ${CMAKE_BINARY_DIR}/include/chess.h)
+# Configure headers
+configure_file(include/extensions.h.in ${CMAKE_BINARY_DIR}/include/extensions.h)
+configure_file(include/chess.h.in ${CMAKE_BINARY_DIR}/include/chess.h)
+
+# Include directories
+set(INCLUDE_DIRECTORIES
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/lib/pcmath/include
+        ${CMAKE_SOURCE_DIR}/lib/pcmem/include
+        ${CMAKE_SOURCE_DIR}/lib/pcstrings/include
+        ${CMAKE_SOURCE_DIR}/lib/scpunitc/include
+        ${CMAKE_CURRENT_BINARY_DIR}/include)
 
 ## Targets
 
+# Helper libraries
+add_subdirectory(lib/pcmath)
+add_subdirectory(lib/pcmem)
+add_subdirectory(lib/pcstrings)
+
+if(ENABLE_TESTING)
+    add_subdirectory(lib/scpunitc)
+endif()
+
+# Extensions
+add_library(pcfen src/extensions/fen.c)
+target_include_directories(pcfen PUBLIC ${INCLUDE_DIRECTORIES})
+
+add_library(pcie src/extensions/import_export.c)
+target_include_directories(pcie PUBLIC ${INCLUDE_DIRECTORIES})
+
 # Main library
-add_library(protonchess ${LIBRARY_MAIN_SOURCES})
+add_library(protonchess src/chess.c)
+target_include_directories(protonchess PUBLIC ${INCLUDE_DIRECTORIES})
+target_link_libraries(protonchess pcmath pcmem pcstrings)
 
 if(FEN_EXTENSIONS)
-    target_sources(protonchess PUBLIC ${FEN_EXT_SOURCES})
+    target_link_libraries(protonchess pcfen)
 endif()
 
 if(IMPORT_EXPORT_EXTENSIONS)
-    target_sources(protonchess PUBLIC ${IE_EXT_SOURCES})
+    target_link_libraries(protonchess pcie)
 endif()
 
-target_include_directories(protonchess PUBLIC ${LIBRARY_INCLUDE_DIRECTORIES})
+## Testing
 
-## Tests
+if(ENABLE_TESTING)
+    add_library(protonchess-test test/chess.test.c)
+    target_include_directories(protonchess-test PUBLIC ${INCLUDE_DIRECTORIES})
 
-# Tests target
-add_custom_target(proton-chess-tests-all)
+    add_executable(tests test/test.c)
+    target_include_directories(tests PUBLIC ${INCLUDE_DIRECTORIES})
+    target_link_libraries(tests
+            protonchess
+            protonchess-test
+            pcmath
+            pcmem
+            pcstrings
+            pcstrings-test)
 
-# Add in unit testing library
-add_subdirectory(lib/scpunitc)
+    if(FEN_EXTENSIONS)
+        add_library(fen-ext-test test/extensions/fen.test.c)
+        target_include_directories(fen-ext-test PUBLIC ${INCLUDE_DIRECTORIES})
 
-# Main Library
-add_executable(libprotonchess-tests ${LIBRARY_MAIN_TEST_SOURCES})
-target_link_libraries(libprotonchess-tests protonchess)
-target_include_directories(libprotonchess-tests PUBLIC ${LIBRARY_INCLUDE_DIRECTORIES} SYSTEM ${TEST_INCLUDE_DIRECTORIES})
-add_dependencies(proton-chess-tests-all libprotonchess-tests)
+        target_link_libraries(tests pcfen fen-ext-test)
+    endif()
 
-# FEN Extensions
-if(FEN_EXTENSIONS)
-    add_executable(fen-extensions-tests ${FEN_EXT_TEST_SOURCES})
-    target_link_libraries(fen-extensions-tests protonchess)
-    target_include_directories(fen-extensions-tests PUBLIC ${LIBRARY_INCLUDE_DIRECTORIES} SYSTEM ${TEST_INCLUDE_DIRECTORIES})
-    add_dependencies(proton-chess-tests-all fen-extensions-tests)
+    if(IMPORT_EXPORT_EXTENSIONS)
+        add_library(ie-ext-test test/extensions/ie.test.c)
+        target_include_directories(ie-ext-test PUBLIC ${INCLUDE_DIRECTORIES})
+
+        target_link_libraries(tests pcie ie-ext-test)
+    endif()
 endif()
-
-# Import Export Extensions
-if(IMPORT_EXPORT_EXTENSIONS)
-    add_executable(ie-extensions-tests ${IE_EXT_TEST_SOURCES})
-    target_link_libraries(ie-extensions-tests protonchess)
-    target_include_directories(ie-extensions-tests PUBLIC ${LIBRARY_INCLUDE_DIRECTORIES} SYSTEM ${TEST_INCLUDE_DIRECTORIES})
-    add_dependencies(proton-chess-tests-all ie-extensions-tests)
-endif()
-
-## Applications
-
-# proton-chess proof of concept
-add_executable(proton-chess-poc ${POC_SOURCES})
-target_link_libraries(proton-chess-poc protonchess)
-target_include_directories(proton-chess-poc PUBLIC ${LIBRARY_INCLUDE_DIRECTORIES})
 
 # Documentation
 find_package(Doxygen)

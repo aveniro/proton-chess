@@ -59,9 +59,3 @@ TEST_SUITE(FENExtensions)
     ADD_TEST(cb_parse_fen);
     ADD_TEST(cb_generate_fen);
 }
-
-int main()
-{
-    RUN_SUITE(FENExtensions);
-    return _has_error;
-}

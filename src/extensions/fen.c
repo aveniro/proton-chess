@@ -7,6 +7,7 @@
 
 #include <string.h>
 #include "chess.h"
+#include "pcstrings.h"
 
 /**
  * Parse Forsyth-Edwards notation into an initialized chess board.

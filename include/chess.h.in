@@ -12,6 +12,8 @@
 #define CB_VERSION_MINOR    @PROJECT_VERSION_MINOR@
 #define CB_VERSION_PATCH    @PROJECT_VERSION_PATCH@
 
+#include "base_types.h"
+
 /**
  * @defgroup piece-values Piece Values
  * Definitions for all of the possible piece values and their
@@ -135,14 +137,6 @@
 #define cb_square_index(file_id, rank_id) ((file_id) + (rank_id * 8))
 
 /**
- * Used extensively as a container to store various values.
- * This is because we try to store everything in the smallest
- * possible size in order to reduce binary size and RAM
- * consumption.
- */
-typedef unsigned char uchar;
-
-/**
  * Structure used to hold chess boards and their game information
  * in proton-chess.
  */
@@ -238,10 +232,6 @@ uchar cb_get_board_value_at(chess_board *board, uchar file, uchar rank);
 void cb_set_board_value_at(chess_board *board, uchar file, uchar rank, uchar piece_value);
 char *cb_coordinate_index_to_notation(uchar coordinate_index);
 void cb_initialize_game(chess_board *board);
-
-// stringutils.c
-uchar cb_read_uchar_from_string(const char *string, uchar start_index);
-uchar cb_uchar_to_string(uchar value, char *buffer, uchar buffer_size);
 
 #include "extensions.h"
 
