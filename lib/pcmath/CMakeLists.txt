@@ -6,6 +6,6 @@ add_library(pcmath src/pcmath.c)
 target_include_directories(pcmath PUBLIC ${INCLUDE_DIRECTORIES})
 
 if(ENABLE_TESTING)
-    add_library(pcmath-test test/pcmath-test.c)
+    add_library(pcmath-test test/pcmath.test.c)
     target_include_directories(pcmath-test PUBLIC ${INCLUDE_DIRECTORIES})
 endif()
