@@ -43,9 +43,8 @@ jobs:
           ../cmake/bin/cmake --build . --target documentation
 
       - name: Deploy documentation
-        run: |
-          git checkout documentation
-          git add build/docs/html/*
-          git mv build/docks/html/* .
-          git commit -m "Update documentation"
-          git push origin documentation
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/docs/html
+          publish_branch: documentation
