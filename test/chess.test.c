@@ -5,8 +5,8 @@
  * library.
  */
 
-#include <scpunitc.h>
 #include <string.h>
+#include "scpunitc.h"
 #include "chess.h"
 
 TEST(cb_get_board_value_at)

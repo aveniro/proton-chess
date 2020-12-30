@@ -56,30 +56,27 @@ endif()
 
 if(ENABLE_TESTING)
     add_library(protonchess-test test/chess.test.c)
+    target_link_libraries(protonchess-test protonchess)
     target_include_directories(protonchess-test PUBLIC ${INCLUDE_DIRECTORIES})
 
     add_executable(tests test/test.c)
     target_include_directories(tests PUBLIC ${INCLUDE_DIRECTORIES})
-    target_link_libraries(tests
-            protonchess
-            protonchess-test
-            pcmath
-            pcmem
-            pcstrings
-            pcstrings-test)
+    target_link_libraries(tests protonchess-test pcstrings-test)
 
     if(FEN_EXTENSIONS)
         add_library(fen-ext-test test/extensions/fen.test.c)
+        target_link_libraries(fen-ext-test protonchess pcstrings pcfen)
         target_include_directories(fen-ext-test PUBLIC ${INCLUDE_DIRECTORIES})
 
-        target_link_libraries(tests pcfen fen-ext-test)
+        target_link_libraries(tests fen-ext-test)
     endif()
 
     if(IMPORT_EXPORT_EXTENSIONS)
         add_library(ie-ext-test test/extensions/ie.test.c)
+        target_link_libraries(fen-ext-test protonchess pcie)
         target_include_directories(ie-ext-test PUBLIC ${INCLUDE_DIRECTORIES})
 
-        target_link_libraries(tests pcie ie-ext-test)
+        target_link_libraries(tests ie-ext-test)
     endif()
 endif()
 

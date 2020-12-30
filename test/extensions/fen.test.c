@@ -4,7 +4,7 @@
  * @brief Tests for the FEN extensions of proton-chess.
  */
 
-#include <scpunitc.h>
+#include "scpunitc.h"
 #include "chess.h"
 
 TEST(cb_parse_fen)
