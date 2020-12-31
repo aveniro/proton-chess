@@ -14,7 +14,7 @@ TEST(cb_board_point_evaluation)
     cb_initialize_game(board);
 
     cb_board_evaluation expected_values;
-    expected_values.white_points += 8 * cb_piece_values[PAWN];
+    expected_values.white_points = 8 * cb_piece_values[PAWN];
     expected_values.white_points += 2 * cb_piece_values[ROOK];
     expected_values.white_points += 2 * cb_piece_values[KNIGHT];
     expected_values.white_points += 2 * cb_piece_values[BISHOP];
