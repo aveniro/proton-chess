@@ -33,6 +33,7 @@
 ///@{
 #define WHITE           0x0     /* 0b0000 */
 #define BLACK           0x8     /* 0b1000 */
+#define COLOR_MASK      0x7     /* 0b0111 */
 
 #define PAWN            0x1     /* 0b0001 */
 #define KNIGHT          0x2     /* 0b0010 */
@@ -128,6 +129,8 @@
  */
 #define cb_container_index(file_id, rank_id) ((file_id / 2) + (rank_id * 4))
 
+#define cb_square_index_to_container_index(square_index) ((square_index) / 2)
+
 /**
  * Convert a file_id and rank into zero-indexed index in the
  * chess board 1D array.
@@ -183,6 +186,16 @@ typedef struct {
     uchar board[32];
 } chess_board;
 
+typedef struct {
+    uchar from_square_index;
+    uchar to_square_index;
+} cb_move;
+
+typedef struct {
+    uchar black_points;
+    uchar white_points;
+} cb_board_evaluation;
+
 /**
  * Chess piece lookup table. Converts character notation values into
  * proton-chess binary piece representations.
@@ -204,14 +217,16 @@ static const uchar cb_lookup_table[122] = {
 
 /**
  * Piece values used during positional evaluations. Taken
- * from Wikipedia.
+ * from Wikipedia. King added in.
  */
-static const uchar cb_piece_values[5] = {
-        1, /// Pawn
-        3, /// Knight
-        3, /// Bishop
-        5, /// Rook
-        9  /// Queen
+static const uchar cb_piece_values[7] = {
+        0,    /// Empty Square
+        1,    /// Pawn
+        3,    /// Knight
+        3,    /// Bishop
+        5,    /// Rook
+        9,    /// Queen
+        20    /// King
 };
 
 /**
@@ -230,6 +245,8 @@ chess_board *cb_new_chess_board();
 void cb_free_chess_board(chess_board *board);
 uchar cb_get_board_value_at(chess_board *board, uchar file, uchar rank);
 void cb_set_board_value_at(chess_board *board, uchar file, uchar rank, uchar piece_value);
+uchar cb_get_board_value_at_square_index(chess_board* board, uchar square_index);
+void cb_set_board_value_at_square_index(chess_board *board, uchar square_index, uchar piece_value);
 char *cb_coordinate_index_to_notation(uchar coordinate_index);
 void cb_initialize_game(chess_board *board);
 

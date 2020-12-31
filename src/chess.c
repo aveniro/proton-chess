@@ -30,34 +30,30 @@ char *cb_coordinate_index_to_notation(uchar coordinate_index)
 }
 
 /**
- * Retrieves the piece value at the given board coordinates.
- * @param board Pointer to chess board.
- * @param file Letter notation chess board file. 'A', 'B', 'C', etc.
- * @param rank Chess rank as a number.
- * @return The piece value at the given coordinates.
+ * Get the board value at a specific square index.
+ * @param board Board to get value from.
+ * @param square_index Square index to read.
+ * @return Piece value at specified index.
  */
-uchar cb_get_board_value_at(chess_board *board, uchar file, uchar rank)
+uchar cb_get_board_value_at_square_index(chess_board* board, uchar square_index)
 {
-    uchar file_id = cb_file_id(file);
-    uchar rank_id = cb_rank_id(rank);
-
     /*
      * The board is an array of bytes,
      * which in our case is then a 1D array of the chess board
      * as pairs of squares. This will allow us to select and replace
      * the concerned square.
      */
-    uchar concerned_byte = board->board[cb_container_index(file_id, rank_id)];
+    uchar concerned_byte = board->board[cb_square_index_to_container_index(square_index)];
 
     /*
      * The piece values are stored in four bits on either side of a
      * single byte. So we are determining if we need to put the new
      * piece value into the left or the right side of that byte. We
-     * do this by taking mod 2 of the file id. 0 is left, and 1 is right.
+     * do this by taking mod 2 of the square. 0 is left, and 1 is right.
      *
      * Left side
      */
-    if(file_id % 2 == 0)
+    if(square_index % 2 == 0)
     {
         /*
          * Then we can return the left side by shifting it into the right.
@@ -76,34 +72,45 @@ uchar cb_get_board_value_at(chess_board *board, uchar file, uchar rank)
 }
 
 /**
- * Set the piece value of the specified square.
+ * Retrieves the piece value at the given board coordinates.
  * @param board Pointer to chess board.
  * @param file Letter notation chess board file. 'A', 'B', 'C', etc.
  * @param rank Chess rank as a number.
- * @param piece_value Bitwise-OR'd piece and color value. Ex: BLACK | ROOK.
+ * @return The piece value at the given coordinates.
  */
-void cb_set_board_value_at(chess_board *board, uchar file, uchar rank, uchar piece_value)
+uchar cb_get_board_value_at(chess_board *board, uchar file, uchar rank)
 {
     uchar file_id = cb_file_id(file);
     uchar rank_id = cb_rank_id(rank);
 
+    return cb_get_board_value_at_square_index(board, cb_square_index(file_id, rank_id));
+}
+
+/**
+ * Set the board value at a specific square index.
+ * @param board Board to set value on.
+ * @param square_index Square index to write to.
+ * @param piece_value Value to set the specified square to.
+ */
+void cb_set_board_value_at_square_index(chess_board *board, uchar square_index, uchar piece_value)
+{
     /*
      * The board is an array of bytes,
      * which in our case is then a 1D array of the chess board
      * as pairs of squares. This will allow us to select and replace
      * the concerned square.
      */
-    uchar concerned_byte = board->board[cb_container_index(file_id, rank_id)];
+    uchar concerned_byte = board->board[cb_square_index_to_container_index(square_index)];
 
     /*
      * The piece values are stored in four bits on either side of a
      * single byte. So we are determining if we need to put the new
      * piece value into the left or the right side of that byte. We
-     * do this by taking mod 2 of the file id. 0 is left, and 1 is right.
+     * do this by taking mod 2 of the square index. 0 is left, and 1 is right.
      *
      * Left side
      */
-    if(file_id % 2 == 0)
+    if(square_index % 2 == 0)
     {
         /*
          * First we bitshift out the side that we don't want.
@@ -138,7 +145,22 @@ void cb_set_board_value_at(chess_board *board, uchar file, uchar rank, uchar pie
     /*
      * Now we can set the new calculated square-pair value
      */
-    board->board[cb_container_index(file_id, rank_id)] = concerned_byte;
+    board->board[cb_square_index_to_container_index(square_index)] = concerned_byte;
+}
+
+/**
+ * Set the piece value of the specified square.
+ * @param board Pointer to chess board.
+ * @param file Letter notation chess board file. 'A', 'B', 'C', etc.
+ * @param rank Chess rank as a number.
+ * @param piece_value Bitwise-OR'd piece and color value. Ex: BLACK | ROOK.
+ */
+void cb_set_board_value_at(chess_board *board, uchar file, uchar rank, uchar piece_value)
+{
+    uchar file_id = cb_file_id(file);
+    uchar rank_id = cb_rank_id(rank);
+
+    cb_set_board_value_at_square_index(board, cb_square_index(file_id, rank_id), piece_value);
 }
 
 /**

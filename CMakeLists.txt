@@ -6,6 +6,8 @@ set(CMAKE_C_STANDARD 99)
 # Options
 option(FEN_EXTENSIONS "Enable proton-chess FEN extensions." ON)
 option(IMPORT_EXPORT_EXTENSIONS "Enable proton-chess Import/Export extensions." ON)
+
+option(DYNAMIC_MEMORY_ALLOCATION "Enable dynamic memory allocation." ON)
 option(ENABLE_TESTING "Enable testing." ON)
 
 # Configure headers
@@ -40,7 +42,7 @@ add_library(pcie src/extensions/import_export.c)
 target_include_directories(pcie PUBLIC ${INCLUDE_DIRECTORIES})
 
 # Main library
-add_library(protonchess src/chess.c)
+add_library(protonchess src/chess.c src/notation.c src/movement.c src/evaluation.c)
 target_include_directories(protonchess PUBLIC ${INCLUDE_DIRECTORIES})
 target_link_libraries(protonchess pcmath pcmem pcstrings)
 
@@ -55,7 +57,7 @@ endif()
 ## Testing
 
 if(ENABLE_TESTING)
-    add_library(protonchess-test test/chess.test.c)
+    add_library(protonchess-test test/chess.test.c test/evaluation.test.c test/movement.test.c)
     target_link_libraries(protonchess-test protonchess)
     target_include_directories(protonchess-test PUBLIC ${INCLUDE_DIRECTORIES})
 
@@ -84,10 +86,11 @@ endif()
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
     set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/docs)
+    set(DOXYGEN_USE_MD_FILE_AS_MAINPAGE README.md)
     set(DOXYGEN_FILE_PATTERNS *.c *.h *.h.in)
     set(DOXYGEN_FULL_PATH_NAMES NO)
     set(DOXYGEN_GENERATE_MAN YES)
-    doxygen_add_docs(documentation ./src ./lib ./test ${CMAKE_CURRENT_BINARY_DIR}/include)
+    doxygen_add_docs(documentation ./src ./lib ./test README.md ${CMAKE_CURRENT_BINARY_DIR}/include)
 else()
     message("WARNING: Doxygen could not be found! Documentation target could not be generated.")
 endif()

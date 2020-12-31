@@ -8,6 +8,8 @@
 #include "extensions.h"
 
 DEFINE_SUITE(ProtonChessMain);
+DEFINE_SUITE(Evaluation);
+DEFINE_SUITE(Movement);
 DEFINE_SUITE(PCStrings);
 DEFINE_SUITE(PCMath);
 
@@ -21,6 +23,8 @@ DEFINE_SUITE(FENExtensions);
 int main()
 {
     RUN_SUITE(ProtonChessMain);
+    RUN_SUITE(Evaluation);
+    RUN_SUITE(Movement);
     RUN_SUITE(PCStrings);
     RUN_SUITE(PCMath);
 

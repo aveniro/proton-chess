@@ -11,3 +11,5 @@
     <img alt="Made in France" src="https://img.shields.io/badge/made_in-france-blue">
     <img alt="Builds with CMake" src="https://img.shields.io/badge/builds_with-cmake-brightgreen">
 </h3>
+
+Chess should be for everyone. Proton Chess is a chess engine that aims to be as small and portable as possible. 
