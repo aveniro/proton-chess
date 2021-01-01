@@ -14,6 +14,10 @@
 
 Chess should be for everyone. Proton Chess is a chess engine that aims to be as small and portable as possible. 
 
+## Documentation
+
+Proton Chess is documented using `doxygen`. You can find the documentation for the [latest API here](https://nateseymour.github.io/proton-chess/).
+
 ## Building
 
 Proton Chess doesn't have any dependencies. That means that building it is a rather simple affair. 
