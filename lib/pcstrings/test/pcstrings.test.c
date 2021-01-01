@@ -39,8 +39,22 @@ TEST(cb_uchar_to_string)
         ASSERT_STR_EQ_MSG(string_buffer, "28", "Value should be 28.");
 }
 
+TEST(is_char_uppercase)
+{
+    ASSERT_TRUE_MSG(is_char_uppercase('A'), "'A' is an uppercase letter.");
+    ASSERT_TRUE_MSG(is_char_uppercase('D'), "'D' is an uppercase letter.");
+    ASSERT_TRUE_MSG(is_char_uppercase('O'), "'O' is an uppercase letter.");
+    ASSERT_TRUE_MSG(is_char_uppercase('P'), "'P' is an uppercase letter.");
+
+    ASSERT_TRUE_MSG(!is_char_uppercase('j'), "'j' is a lowercase letter.");
+    ASSERT_TRUE_MSG(!is_char_uppercase('k'), "'k' is a lowercase letter.");
+    ASSERT_TRUE_MSG(!is_char_uppercase('w'), "'w' is a lowercase letter.");
+    ASSERT_TRUE_MSG(!is_char_uppercase('m'), "'m' is a lowercase letter.");
+}
+
 TEST_SUITE(PCStrings)
 {
         ADD_TEST(cb_read_uchar_from_string);
         ADD_TEST(cb_uchar_to_string);
+        ADD_TEST(is_char_uppercase);
 }
