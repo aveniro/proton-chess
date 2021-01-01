@@ -48,3 +48,13 @@ Option | Possible Values | Description | Default
 ---|---|---|---
 `-DBUILD_TYPE` | `Release`, `Debug` | Controls build optimization and the inclusion of debugging symbols. | `Debug`
 `-DFEN_EXTENSIONS` | `ON`, `OFF` | Inclusion of the FEN Notation extensions for Proton Chess. These can be disabled with `NO` to produce smaller binaries. | `ON`
+
+### Build Targets
+
+The `build` badge for CI found at the top of the README is for the platform `linux-x86_64`. Please see the following table for the CI information of all currently supported platforms.
+
+Target | Status
+---|---
+`linux-x86_64` | <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/NateSeymour/proton-chess/ci-linux-x86_64">
+`WASM` | <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/NateSeymour/proton-chess/ci-wasm">
+
