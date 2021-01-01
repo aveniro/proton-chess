@@ -1,0 +1,73 @@
+name: ci-wasm
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Update and install build tools
+        run: sudo apt-get update && sudo apt-get install build-essential wget doxygen
+
+      # Runs a set of commands using the runners shell
+      - name: Download cmake
+        run: wget https://github.com/Kitware/CMake/releases/download/v3.19.2/cmake-3.19.2-Linux-x86_64.tar.gz
+        
+      - name: Unpack cmake
+        run: |
+          tar xf cmake-3.19.2-Linux-x86_64.tar.gz
+          mv cmake-3.19.2-Linux-x86_64 cmake
+
+      - name: Download node
+        run: wget https://nodejs.org/dist/v14.15.3/node-v14.15.3-linux-x64.tar.xz
+
+      - name: Unpack node
+        run: |
+          tar xf node-v14.15.3-linux-x64.tar.xz
+          mv node-v14.15.3-linux-x64 node
+
+      - name: Download emscripten
+        run: git clone https://github.com/emscripten-core/emsdk.git
+
+      - name: Install emscripten
+        run: |
+          ./emsdk install latest
+          ./emsdk activate latest
+
+      - name: Configure proton-chess
+        run: |
+          source ./emsdk/emsdk_env.sh
+          mkdir build
+          cd build
+          emcmake ../cmake/bin/cmake ..
+
+      - name: Build proton-chess
+        run: |
+          source ./emsdk/emsdk_env.sh
+          cd build
+          emmake make protonchess
+
+      - name: Build tests
+        run: |
+          source ./emsdk/emsdk_env.sh
+          cd build
+          emmake make tests
+          
+      - name: Run tests
+        run: |
+          cd build
+          ../node/bin/node ./tests.js

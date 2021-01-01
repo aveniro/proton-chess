@@ -11,12 +11,27 @@
 #include "base_types.h"
 
 /**
- * Checks if a character is uppercase or not, comparing it to the lowercase
- * character 'a' (97).
- * @param char Character to check.
+ * Checks if a character is uppercase or not by checking if the value is between
+ * 'A' and 'Z'.
+ * @param character Character to check.
  * @return 1 if the character is uppercase. Else returns 0.
  */
-#define is_char_uppercase(char) (((char) >= 'a') ? 0 : 1)
+#define is_char_uppercase(character) (((character) >= 'A' && (character) <= 'Z') ? 1 : 0)
+
+/**
+ * Checks if a character is lowercase or not by checking if the value is between
+ * 'a' and 'z'.
+ * @param character Character to check.
+ * @return 1 if the character is lowercase. Else returns 0.
+ */
+#define is_char_lowercase(character) (((character) >= 'a' && (character) <= 'z') ? 1 : 0)
+
+/**
+ * Checks if a character is a digit or not.
+ * @param character Character to check.
+ * @return 1 if the character is a digit. Else returns 0.
+ */
+#define is_char_digit(character) (((character) >= '0' && (character) <= '9') ? 1 : 0)
 
 uchar cb_read_uchar_from_string(const char *string, uchar start_index);
 uchar cb_uchar_to_string(uchar value, char *buffer, uchar buffer_size);

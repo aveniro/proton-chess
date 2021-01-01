@@ -52,9 +52,37 @@ TEST(is_char_uppercase)
     ASSERT_TRUE_MSG(!is_char_uppercase('m'), "'m' is a lowercase letter.");
 }
 
+TEST(is_char_lowercase)
+{
+    ASSERT_TRUE_MSG(!is_char_lowercase('A'), "'A' is an uppercase letter.");
+    ASSERT_TRUE_MSG(!is_char_lowercase('D'), "'D' is an uppercase letter.");
+    ASSERT_TRUE_MSG(!is_char_lowercase('O'), "'O' is an uppercase letter.");
+    ASSERT_TRUE_MSG(!is_char_lowercase('P'), "'P' is an uppercase letter.");
+
+    ASSERT_TRUE_MSG(is_char_lowercase('j'), "'j' is a lowercase letter.");
+    ASSERT_TRUE_MSG(is_char_lowercase('k'), "'k' is a lowercase letter.");
+    ASSERT_TRUE_MSG(is_char_lowercase('w'), "'w' is a lowercase letter.");
+    ASSERT_TRUE_MSG(is_char_lowercase('m'), "'m' is a lowercase letter.");
+}
+
+TEST(is_char_digit)
+{
+    ASSERT_TRUE_MSG(is_char_digit('0'), "'0' is a digit.");
+    ASSERT_TRUE_MSG(is_char_digit('7'), "'9' is a digit.");
+    ASSERT_TRUE_MSG(is_char_digit('9'), "'9' is a digit.");
+    ASSERT_TRUE_MSG(is_char_digit('1'), "'1' is a digit.");
+
+    ASSERT_TRUE_MSG(!is_char_digit('x'), "'x' is not a digit.");
+    ASSERT_TRUE_MSG(!is_char_digit('a'), "'a' is not a digit.");
+    ASSERT_TRUE_MSG(!is_char_digit('p'), "'p' is not a digit.");
+    ASSERT_TRUE_MSG(!is_char_digit('q'), "'q' is not a digit.");
+}
+
 TEST_SUITE(PCStrings)
 {
         ADD_TEST(cb_read_uchar_from_string);
         ADD_TEST(cb_uchar_to_string);
         ADD_TEST(is_char_uppercase);
+        ADD_TEST(is_char_lowercase);
+        ADD_TEST(is_char_digit);
 }
