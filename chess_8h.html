@@ -83,6 +83,10 @@ $(function() {
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchess__board.html">chess_board</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcb__move.html">cb_move</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcb__board__evaluation.html">cb_board_evaluation</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -104,6 +108,9 @@ Macros</h2></td></tr>
 <tr class="memitem:ga7b3b25cba33b07c303f3060fe41887f6"><td class="memItemLeft" align="right" valign="top">
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BLACK</b>&#160;&#160;&#160;0x8     /* 0b1000 */</td></tr>
 <tr class="separator:ga7b3b25cba33b07c303f3060fe41887f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3d35ba6cf15eaabc2e9e0b55fa6ed366"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>COLOR_MASK</b>&#160;&#160;&#160;0x7     /* 0b0111 */</td></tr>
+<tr class="separator:ga3d35ba6cf15eaabc2e9e0b55fa6ed366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf92ca8f5d9d9525c199cdfcc9b2b3b4f"><td class="memItemLeft" align="right" valign="top">
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PAWN</b>&#160;&#160;&#160;0x1     /* 0b0001 */</td></tr>
 <tr class="separator:gaf92ca8f5d9d9525c199cdfcc9b2b3b4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,6 +171,9 @@ Macros</h2></td></tr>
 <tr class="separator:a02d0ad15a6db4c4771565dc4ff10c26b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ab711f77666adcc44f27fa6d9f3afd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chess_8h.html#a4ab711f77666adcc44f27fa6d9f3afd0">cb_container_index</a>(file_id,  rank_id)&#160;&#160;&#160;((file_id / 2) + (rank_id * 4))</td></tr>
 <tr class="separator:a4ab711f77666adcc44f27fa6d9f3afd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af36cd18217dc86f5e9aefed1edb556e0"><td class="memItemLeft" align="right" valign="top"><a id="af36cd18217dc86f5e9aefed1edb556e0"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>cb_square_index_to_container_index</b>(square_index)&#160;&#160;&#160;((square_index) / 2)</td></tr>
+<tr class="separator:af36cd18217dc86f5e9aefed1edb556e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaeee8b5e1c2470da661244b141836218"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chess_8h.html#aaeee8b5e1c2470da661244b141836218">cb_square_index</a>(file_id,  rank_id)&#160;&#160;&#160;((file_id) + (rank_id * 8))</td></tr>
 <tr class="separator:aaeee8b5e1c2470da661244b141836218"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -177,6 +187,10 @@ Functions</h2></td></tr>
 <tr class="separator:aa163262646a2150fd25672cf010a3280"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2c22681bebdba0eaa6ee933de135642"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chess_8h.html#ab2c22681bebdba0eaa6ee933de135642">cb_set_board_value_at</a> (<a class="el" href="structchess__board.html">chess_board</a> *board, uchar file, uchar rank, uchar piece_value)</td></tr>
 <tr class="separator:ab2c22681bebdba0eaa6ee933de135642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a943a17d393aab6475951864961e35926"><td class="memItemLeft" align="right" valign="top">uchar&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chess_8h.html#a943a17d393aab6475951864961e35926">cb_get_board_value_at_square_index</a> (<a class="el" href="structchess__board.html">chess_board</a> *board, uchar square_index)</td></tr>
+<tr class="separator:a943a17d393aab6475951864961e35926"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad52993b1399ddd46a6c88b30af4aefcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chess_8h.html#ad52993b1399ddd46a6c88b30af4aefcf">cb_set_board_value_at_square_index</a> (<a class="el" href="structchess__board.html">chess_board</a> *board, uchar square_index, uchar piece_value)</td></tr>
+<tr class="separator:ad52993b1399ddd46a6c88b30af4aefcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8d44b7a78d2850bddfc3c5b44636f3b"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chess_8h.html#aa8d44b7a78d2850bddfc3c5b44636f3b">cb_coordinate_index_to_notation</a> (uchar coordinate_index)</td></tr>
 <tr class="separator:aa8d44b7a78d2850bddfc3c5b44636f3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a649694fedbf68d925949c89c1e3dee68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chess_8h.html#a649694fedbf68d925949c89c1e3dee68">cb_initialize_game</a> (<a class="el" href="structchess__board.html">chess_board</a> *board)</td></tr>
@@ -585,6 +599,42 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a943a17d393aab6475951864961e35926"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a943a17d393aab6475951864961e35926">&#9670;&nbsp;</a></span>cb_get_board_value_at_square_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uchar cb_get_board_value_at_square_index </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structchess__board.html">chess_board</a> *&#160;</td>
+          <td class="paramname"><em>board</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>square_index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the board value at a specific square index. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">board</td><td>Board to get value from. </td></tr>
+    <tr><td class="paramname">square_index</td><td>Square index to read. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Piece value at specified index. </dd></dl>
+
+</div>
+</div>
 <a id="ac04139e91627fde5f137d31485e78d01"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac04139e91627fde5f137d31485e78d01">&#9670;&nbsp;</a></span>cb_import_board_from_file()</h2>
 
@@ -770,6 +820,48 @@ Functions</h2></td></tr>
     <tr><td class="paramname">file</td><td>Letter notation chess board file. 'A', 'B', 'C', etc. </td></tr>
     <tr><td class="paramname">rank</td><td>Chess rank as a number. </td></tr>
     <tr><td class="paramname">piece_value</td><td>Bitwise-OR'd piece and color value. Ex: BLACK | ROOK. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad52993b1399ddd46a6c88b30af4aefcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad52993b1399ddd46a6c88b30af4aefcf">&#9670;&nbsp;</a></span>cb_set_board_value_at_square_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cb_set_board_value_at_square_index </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structchess__board.html">chess_board</a> *&#160;</td>
+          <td class="paramname"><em>board</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>square_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar&#160;</td>
+          <td class="paramname"><em>piece_value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set the board value at a specific square index. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">board</td><td>Board to set value on. </td></tr>
+    <tr><td class="paramname">square_index</td><td>Square index to write to. </td></tr>
+    <tr><td class="paramname">piece_value</td><td>Value to set the specified square to. </td></tr>
   </table>
   </dd>
 </dl>
