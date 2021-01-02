@@ -66,7 +66,37 @@ $(function() {
 <div class="textblock"><h3 align="center"></h3>
 <h3 align="center">Tiny, embeddable chess. </h3>
 <h3 align="center"></h3>
-<p>Chess should be for everyone. Proton Chess is a chess engine that aims to be as small and portable as possible. </p>
+<p>Chess should be for everyone. Proton Chess is a chess engine that aims to be as small and portable as possible.</p>
+<h2>Documentation</h2>
+<p>Proton Chess is documented using <code>doxygen</code>. You can find the documentation for the <a href="https://nateseymour.github.io/proton-chess/">latest API here</a>.</p>
+<h2>Building</h2>
+<p>Proton Chess doesn't have any dependencies. That means that building it is a rather simple affair.</p>
+<p>All you need is <code>cmake</code> and a <code>C99</code> compatible compiler.</p>
+<div class="fragment"><div class="line"># Clone the GitHub repository</div><div class="line">git clone https://github.com/NateSeymour/proton-chess.git</div><div class="line">cd proton-chess</div><div class="line"></div><div class="line"># Make build directory</div><div class="line">mkdir build &amp;&amp; cd build</div><div class="line"></div><div class="line"># Configure the project (see build options below)</div><div class="line">cmake .. -DBUILD_TYPE=Release </div><div class="line"></div><div class="line"># Build project</div><div class="line">cmake --build . --target protonchess</div><div class="line"></div><div class="line"># Optional: Build latest documentation (requires doxygen)</div><div class="line">cmake --build . --target documentation</div><div class="line"></div><div class="line"># Optional: Build and run tests (requires -DENABLE_TESTING=ON)</div><div class="line">cmake --build . --target tests</div><div class="line">./tests</div></div><!-- fragment --><h3>Build Configuration</h3>
+<table class="doxtable">
+<tr>
+<th>Option </th><th>Possible Values </th><th>Description </th><th>Default  </th></tr>
+<tr>
+<td><code>-DBUILD_TYPE</code> </td><td><code>Release</code>, <code>Debug</code> </td><td>Controls build optimization and the inclusion of debugging symbols. </td><td><code>Debug</code> </td></tr>
+<tr>
+<td><code>-DFEN_EXTENSIONS</code> </td><td><code>ON</code>, <code>OFF</code> </td><td>Inclusion of the FEN Notation extensions for Proton Chess. These can be disabled with <code>NO</code> to produce smaller binaries. </td><td><code>ON</code> </td></tr>
+</table>
+<h3>Build Targets</h3>
+<p>The <code>build</code> badge for CI found at the top of the README is for the platform <code>linux-x86_64</code>. Please see the following table for the CI information of all currently supported platforms.</p>
+<table class="doxtable">
+<tr>
+<th>Target </th><th>Status  </th></tr>
+<tr>
+<td><code>linux-x86_64</code> </td><td><div class="image">
+<img src="https://img.shields.io/github/workflow/status/NateSeymour/proton-chess/ci-linux-x86_64" alt="GitHub Workflow Status"/>
+</div>
+ </td></tr>
+<tr>
+<td><code>WASM</code> </td><td><div class="image">
+<img src="https://img.shields.io/github/workflow/status/NateSeymour/proton-chess/ci-wasm" alt="GitHub Workflow Status"/>
+</div>
+ </td></tr>
+</table>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

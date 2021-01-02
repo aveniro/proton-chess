@@ -18,6 +18,7 @@ var searchData=
   ['cb_5fmove',['cb_move',['../structcb__move.html',1,'']]],
   ['cb_5fnew_5fchess_5fboard',['cb_new_chess_board',['../chess_8c.html#a8540308146eda0de4668f38bdf6c3ef1',1,'cb_new_chess_board():&#160;chess.c'],['../chess_8h.html#a8540308146eda0de4668f38bdf6c3ef1',1,'cb_new_chess_board():&#160;chess.c']]],
   ['cb_5fparse_5ffen',['cb_parse_fen',['../fen_8c.html#a8bda1964ee571184cc2a232b56602ba0',1,'cb_parse_fen(chess_board *board, const char *fen):&#160;fen.c'],['../chess_8h.html#a8bda1964ee571184cc2a232b56602ba0',1,'cb_parse_fen(chess_board *board, const char *fen):&#160;fen.c']]],
+  ['cb_5fparse_5fnotation',['cb_parse_notation',['../notation_8c.html#a1e27a036750eff7d084fbe7b5b4f3530',1,'notation.c']]],
   ['cb_5fperform_5fmovement',['cb_perform_movement',['../movement_8c.html#a686a996ea5469dbf5646d39a45817427',1,'movement.c']]],
   ['cb_5frank',['cb_rank',['../chess_8h.html#a02d0ad15a6db4c4771565dc4ff10c26b',1,'chess.h']]],
   ['cb_5frank_5fid',['cb_rank_id',['../chess_8h.html#a32594548f17fd1bbe625d5c26d743ae9',1,'chess.h']]],
@@ -32,5 +33,6 @@ var searchData=
   ['chess_2ec',['chess.c',['../chess_8c.html',1,'']]],
   ['chess_2eh',['chess.h',['../chess_8h.html',1,'']]],
   ['chess_2etest_2ec',['chess.test.c',['../chess_8test_8c.html',1,'']]],
-  ['chess_5fboard',['chess_board',['../structchess__board.html',1,'']]]
+  ['chess_5fboard',['chess_board',['../structchess__board.html',1,'']]],
+  ['contributing',['CONTRIBUTING',['../md_docs_CONTRIBUTING.html',1,'']]]
 ];

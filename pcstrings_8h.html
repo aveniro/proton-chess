@@ -64,6 +64,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">pcstrings.h File Reference</div>  </div>
@@ -76,6 +77,15 @@ $(function() {
 </div>
 <p><a href="pcstrings_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a5f99aeff5509429f23636aa21cbca6cb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pcstrings_8h.html#a5f99aeff5509429f23636aa21cbca6cb">is_char_uppercase</a>(character)&#160;&#160;&#160;(((character) &gt;= 'A' &amp;&amp; (character) &lt;= 'Z') ? 1 : 0)</td></tr>
+<tr class="separator:a5f99aeff5509429f23636aa21cbca6cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6a49a271c39bc9dce89982bba5a51fc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pcstrings_8h.html#ac6a49a271c39bc9dce89982bba5a51fc">is_char_lowercase</a>(character)&#160;&#160;&#160;(((character) &gt;= 'a' &amp;&amp; (character) &lt;= 'z') ? 1 : 0)</td></tr>
+<tr class="separator:ac6a49a271c39bc9dce89982bba5a51fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2aa928278301111aff4e924bfcf3f423"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pcstrings_8h.html#a2aa928278301111aff4e924bfcf3f423">is_char_digit</a>(character)&#160;&#160;&#160;(((character) &gt;= '0' &amp;&amp; (character) &lt;= '9') ? 1 : 0)</td></tr>
+<tr class="separator:a2aa928278301111aff4e924bfcf3f423"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a84d1d2b8814e60dee01a4b4ed980dd18"><td class="memItemLeft" align="right" valign="top">uchar&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pcstrings_8h.html#a84d1d2b8814e60dee01a4b4ed980dd18">cb_read_uchar_from_string</a> (const char *string, uchar start_index)</td></tr>
@@ -87,7 +97,83 @@ uchar&#160;</td><td class="memItemRight" valign="bottom"><b>cb_uchar_to_string</
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Portable, cross-platform string operations for proton-chess. </p>
 <dl class="section author"><dt>Author</dt><dd>Nathan Seymour </dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a2aa928278301111aff4e924bfcf3f423"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2aa928278301111aff4e924bfcf3f423">&#9670;&nbsp;</a></span>is_char_digit</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define is_char_digit</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">character</td><td>)</td>
+          <td>&#160;&#160;&#160;(((character) &gt;= '0' &amp;&amp; (character) &lt;= '9') ? 1 : 0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Checks if a character is a digit or not. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">character</td><td>Character to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if the character is a digit. Else returns 0. </dd></dl>
+
+</div>
+</div>
+<a id="ac6a49a271c39bc9dce89982bba5a51fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6a49a271c39bc9dce89982bba5a51fc">&#9670;&nbsp;</a></span>is_char_lowercase</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define is_char_lowercase</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">character</td><td>)</td>
+          <td>&#160;&#160;&#160;(((character) &gt;= 'a' &amp;&amp; (character) &lt;= 'z') ? 1 : 0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Checks if a character is lowercase or not by checking if the value is between 'a' and 'z'. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">character</td><td>Character to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if the character is lowercase. Else returns 0. </dd></dl>
+
+</div>
+</div>
+<a id="a5f99aeff5509429f23636aa21cbca6cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f99aeff5509429f23636aa21cbca6cb">&#9670;&nbsp;</a></span>is_char_uppercase</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define is_char_uppercase</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">character</td><td>)</td>
+          <td>&#160;&#160;&#160;(((character) &gt;= 'A' &amp;&amp; (character) &lt;= 'Z') ? 1 : 0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Checks if a character is uppercase or not by checking if the value is between 'A' and 'Z'. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">character</td><td>Character to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if the character is uppercase. Else returns 0. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="a84d1d2b8814e60dee01a4b4ed980dd18"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a84d1d2b8814e60dee01a4b4ed980dd18">&#9670;&nbsp;</a></span>cb_read_uchar_from_string()</h2>
 

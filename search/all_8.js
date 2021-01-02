@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['readme',['README',['../md_README.html',1,'']]]
+  ['pcstrings_2eh',['pcstrings.h',['../pcstrings_8h.html',1,'']]],
+  ['piece_20values',['Piece Values',['../group__piece-values.html',1,'']]]
 ];
